@@ -10,7 +10,6 @@ module de.mossgrabers.uitools
     requires transitive java.prefs;
     requires transitive java.xml;
     requires transitive javafx.controls;
-    requires transitive javafx.web;
     requires javafx.graphics;
 
 
@@ -18,5 +17,6 @@ module de.mossgrabers.uitools
     exports de.mossgrabers.tools.ui;
     exports de.mossgrabers.tools.ui.action;
     exports de.mossgrabers.tools.ui.control;
+    exports de.mossgrabers.tools.ui.control.loggerbox;
     exports de.mossgrabers.tools.ui.panel;
 }

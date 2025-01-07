@@ -1,5 +1,5 @@
 // Written by Jürgen Moßgraber - mossgrabers.de
-// (c) 2019-2024
+// (c) 2019-2025
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
 package de.mossgrabers.tools.ui;
@@ -885,7 +885,7 @@ public final class Functions
 
     /**
      * Get the index of the selected toggle in the given toggle group.
-     * 
+     *
      * @param toggleGroup The toggle group
      * @return The index of the first selected toggle or -1 if none is selected
      */
@@ -901,7 +901,7 @@ public final class Functions
 
     /**
      * Selects the toggle in the given toggle group with the given index.
-     * 
+     *
      * @param toggleGroup The toggle group
      * @param index The index; the method ensures that it is inside of the bounds of available
      *            toggles

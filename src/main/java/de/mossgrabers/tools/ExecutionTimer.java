@@ -1,5 +1,5 @@
 // Written by Jürgen Moßgraber - mossgrabers.de
-// (c) 2019-2024
+// (c) 2019-2025
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
 package de.mossgrabers.tools;
@@ -83,7 +83,7 @@ public class ExecutionTimer
 
     /**
      * Print the duration in minutes, seconds and milli-seconds.
-     * 
+     *
      * @param out The print stream to write to
      */
     public void print (final PrintStream out)

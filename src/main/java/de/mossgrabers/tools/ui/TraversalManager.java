@@ -1,5 +1,5 @@
 // Written by Jürgen Moßgraber - mossgrabers.de
-// (c) 2019-2024
+// (c) 2019-2025
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
 package de.mossgrabers.tools.ui;
@@ -33,7 +33,7 @@ public class TraversalManager
 
     /**
      * Register the manager to a JavaFX stage.
-     * 
+     *
      * @param stage The stage to which to register the manager
      */
     public void register (final Stage stage)
@@ -44,7 +44,7 @@ public class TraversalManager
 
     /**
      * Add a widget to the traversal.
-     * 
+     *
      * @param widget The widget to add
      */
     public void add (final Node widget)
@@ -55,35 +55,31 @@ public class TraversalManager
 
     /**
      * Add all child-widgets of the given parent to the traversal.
-     * 
+     *
      * @param parent The parent
      */
     public void addChildren (final Parent parent)
     {
-        if (parent instanceof ScrollPane scrollPane)
+        if (parent instanceof final ScrollPane scrollPane)
         {
             final Node content = scrollPane.getContent ();
-            if (content instanceof Parent parentContent)
+            if (content instanceof final Parent parentContent)
                 this.addChildren (parentContent);
             else
                 this.add (content);
         }
         else
-        {
             for (final Node node: parent.getChildrenUnmodifiable ())
-            {
                 if (node instanceof ButtonBase || node instanceof TextInputControl || node instanceof ComboBoxBase<?>)
                     this.widgets.add (node);
-                else if (node instanceof Parent childParent)
+                else if (node instanceof final Parent childParent)
                     this.addChildren (childParent);
-            }
-        }
     }
 
 
     private void handleKey (final KeyEvent keyEvent)
     {
-        if (keyEvent.getCode ().equals (KeyCode.TAB) && keyEvent.getTarget () instanceof Node node)
+        if (keyEvent.getCode ().equals (KeyCode.TAB) && keyEvent.getTarget () instanceof final Node node)
         {
             int index = this.widgets.indexOf (node);
             if (index < 0)
@@ -129,7 +125,7 @@ public class TraversalManager
             if (!parent.isVisible ())
                 return true;
 
-            if (parent instanceof TabPane tabPane)
+            if (parent instanceof final TabPane tabPane)
             {
                 // The widget is in a Tab check if it is the selected one
                 final Tab selectedTab = tabPane.getSelectionModel ().getSelectedItem ();
@@ -149,14 +145,10 @@ public class TraversalManager
         if (content == widget)
             return true;
 
-        if (content instanceof Parent parent)
-        {
+        if (content instanceof final Parent parent)
             for (final Node child: parent.getChildrenUnmodifiable ())
-            {
                 if (findWidget (child, widget))
                     return true;
-            }
-        }
 
         return false;
     }
