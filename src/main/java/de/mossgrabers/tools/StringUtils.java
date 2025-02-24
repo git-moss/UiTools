@@ -189,4 +189,70 @@ public class StringUtils
         final String [] split = text.split ("\0");
         return split.length == 0 ? "" : split[0];
     }
+
+
+    /**
+     * Formats a byte array as one line.
+     * 
+     * @param data The data to format
+     * @return The formatted data
+     */
+    public static String formatArray (final byte [] data)
+    {
+        if (data.length == 0)
+            return "[]";
+
+        final StringBuilder sb = new StringBuilder ("[ ");
+        for (int i = 0; i < data.length; i++)
+        {
+            if (i > 0)
+                sb.append (", ");
+            sb.append (data[i]);
+        }
+        return sb.append (" ]").toString ();
+    }
+
+
+    /**
+     * Convert the bytes to a hex string
+     *
+     * @param data The data to convert
+     * @return The hex string
+     */
+    public static String formatHexStr (final byte [] data)
+    {
+        final StringBuilder sb = new StringBuilder ();
+        for (final byte d: data)
+        {
+            if (!sb.isEmpty ())
+                sb.append (' ');
+            sb.append (formatHexStr (Byte.toUnsignedInt (d)));
+        }
+        return sb.toString ();
+    }
+
+
+    /**
+     * Convert the byte to a hex string
+     *
+     * @param number The value to convert
+     * @return The hex string
+     */
+    public static String formatHexStr (final int number)
+    {
+        return String.format ("%02X", Integer.valueOf (number));
+    }
+
+
+    /**
+     * Formats an integer value as decimal and hex.
+     * 
+     * @param value The value to format
+     * @return The formatted value
+     */
+    public static String formatDataValue (final int value)
+    {
+        final Integer valueObj = Integer.valueOf (value);
+        return String.format ("%d (0x%02X)", valueObj, valueObj);
+    }
 }

@@ -25,7 +25,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -71,14 +70,6 @@ public class LoggerBox extends ListView<LogRecord>
 
         this.getSelectionModel ().setSelectionMode (SelectionMode.MULTIPLE);
         this.getStyleClass ().add ("log-view");
-
-        // Use fixed row heights calculated from an example text
-        // Otherwise ListView prints errors to the console
-        final Text text = new Text ("Sample Text");
-        text.getStyleClass ().add ("log-view");
-        text.applyCss ();
-        final double textHeight = text.getLayoutBounds ().getHeight ();
-        this.setFixedCellSize (2 * textHeight);
 
         final Timeline logTransfer = new Timeline (new KeyFrame (Duration.seconds (1), event -> this.updateFromLog (logger)));
         logTransfer.setCycleCount (Animation.INDEFINITE);
