@@ -718,7 +718,7 @@ public final class Functions
         buttonTypes.setAll (ButtonType.CANCEL);
 
         // If task stops running exchange the buttons
-        task.runningProperty ().addListener ((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+        task.runningProperty ().addListener ((ChangeListener<Boolean>) (_, _, newValue) -> {
             if (!newValue.booleanValue ())
                 buttonTypes.setAll (ButtonType.CLOSE);
         });

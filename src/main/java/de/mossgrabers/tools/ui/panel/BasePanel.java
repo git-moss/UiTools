@@ -247,7 +247,7 @@ public abstract class BasePanel
     {
         final TextField field = new TextField ();
         final Button selectButton = new Button (Functions.getText (buttonLabel));
-        selectButton.setOnAction (event -> {
+        selectButton.setOnAction (_ -> {
 
             final Optional<File> file = Functions.getFolderFromUser (field.getScene ().getWindow (), configuration, dialogTitle);
             if (file.isPresent ())

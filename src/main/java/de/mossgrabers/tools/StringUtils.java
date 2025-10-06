@@ -61,6 +61,30 @@ public class StringUtils
 
 
     /**
+     * Get the longest common prefix of two strings.
+     *
+     * @param str1 The first string
+     * @param str2 The second string
+     * @return The prefix
+     */
+    public static String getCommonPrefix (final String str1, final String str2)
+    {
+        if (str1 == null || str2 == null)
+            return "";
+
+        final StringBuilder prefixBuffer = new StringBuilder ();
+        final int minLength = Math.min (str1.length (), str2.length ());
+        for (int i = 0; i < minLength; i++)
+        {
+            if (str1.charAt (i) != str2.charAt (i))
+                break;
+            prefixBuffer.append (str1.charAt (i));
+        }
+        return prefixBuffer.toString ();
+    }
+
+
+    /**
      * Pad a string with spaces at the left.
      *
      * @param text The text to pad
@@ -193,7 +217,7 @@ public class StringUtils
 
     /**
      * Formats a byte array as one line.
-     * 
+     *
      * @param data The data to format
      * @return The formatted data
      */
@@ -246,7 +270,7 @@ public class StringUtils
 
     /**
      * Formats an integer value as decimal and hex.
-     * 
+     *
      * @param value The value to format
      * @return The formatted value
      */

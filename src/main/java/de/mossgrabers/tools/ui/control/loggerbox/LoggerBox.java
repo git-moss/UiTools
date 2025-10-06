@@ -71,11 +71,11 @@ public class LoggerBox extends ListView<LogRecord>
         this.getSelectionModel ().setSelectionMode (SelectionMode.MULTIPLE);
         this.getStyleClass ().add ("log-view");
 
-        final Timeline logTransfer = new Timeline (new KeyFrame (Duration.seconds (1), event -> this.updateFromLog (logger)));
+        final Timeline logTransfer = new Timeline (new KeyFrame (Duration.seconds (1), _ -> this.updateFromLog (logger)));
         logTransfer.setCycleCount (Animation.INDEFINITE);
         logTransfer.rateProperty ().bind (this.refreshRateProperty ());
 
-        this.pausedProperty ().addListener ( (observable, oldValue, newValue) -> {
+        this.pausedProperty ().addListener ( (_, _, newValue) -> {
             final boolean booleanValue = newValue.booleanValue ();
             if (booleanValue && logTransfer.getStatus () == Animation.Status.RUNNING)
                 logTransfer.pause ();
@@ -84,19 +84,19 @@ public class LoggerBox extends ListView<LogRecord>
                 logTransfer.play ();
         });
 
-        this.parentProperty ().addListener ( (observable, oldValue, newValue) -> {
+        this.parentProperty ().addListener ( (_, _, newValue) -> {
             if (newValue == null)
                 logTransfer.pause ();
             else if (!this.paused.get ())
                 logTransfer.play ();
         });
 
-        this.filterLevel.addListener ( (observable, oldValue, newValue) -> {
+        this.filterLevel.addListener ( (_, _, _) -> {
             this.setItems (new FilteredList<> (this.logItems, logRecord -> logRecord.getLevel ().ordinal () >= this.filterLevel.get ().ordinal ()));
         });
         this.filterLevel.set (LoggerBoxLevel.DEBUG);
 
-        this.setCellFactory (param -> new ListCell<LogRecord> ()
+        this.setCellFactory (_ -> new ListCell<LogRecord> ()
         {
             /** {@inheritDoc} */
             @Override
@@ -207,7 +207,7 @@ public class LoggerBox extends ListView<LogRecord>
         final MenuItem copyItem = new MenuItem ("Copy selected rows to clipboard");
         contextMenu.getItems ().add (copyItem);
 
-        copyItem.setOnAction (event -> {
+        copyItem.setOnAction (_ -> {
 
             final StringBuilder concatenatedText = new StringBuilder ();
             this.getSelectionModel ().getSelectedItems ().forEach (item -> concatenatedText.append (item.getMessage ()).append ("\n"));

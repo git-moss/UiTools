@@ -19,7 +19,7 @@ public class LogRecord
 
     /**
      * Constructor.
-     * 
+     *
      * @param level The level of the message
      * @param message The message text
      * @param combineWithPrevious Should this message be combined with the previous record?
@@ -34,7 +34,7 @@ public class LogRecord
 
     /**
      * Get the level of the record.
-     * 
+     *
      * @return The level
      */
     public LoggerBoxLevel getLevel ()
@@ -45,7 +45,7 @@ public class LogRecord
 
     /**
      * Get the message text of the record.
-     * 
+     *
      * @return The text
      */
     public String getMessage ()
@@ -56,7 +56,7 @@ public class LogRecord
 
     /**
      * Should this message be combined with the previous record?
-     * 
+     *
      * @return True if it should be combined
      */
     public boolean isCombineWithPrevious ()
@@ -76,7 +76,7 @@ public class LogRecord
 
     /**
      * Check if this record should be removed from the log.
-     * 
+     *
      * @return True if it should be removed
      */
     public boolean isMarkedForRemoval ()

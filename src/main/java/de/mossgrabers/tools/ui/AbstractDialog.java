@@ -103,12 +103,12 @@ public abstract class AbstractDialog extends Dialog<Boolean>
 
         final Window window = this.getWindow ();
         if (minWidth > 0)
-            window.widthProperty ().addListener ((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+            window.widthProperty ().addListener ((ChangeListener<Number>) (_, _, newValue) -> {
                 if (newValue.intValue () < minWidth)
                     window.setWidth (minWidth);
             });
         if (minHeight > 0)
-            window.heightProperty ().addListener ((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+            window.heightProperty ().addListener ((ChangeListener<Number>) (_, _, newValue) -> {
                 if (newValue.intValue () < minHeight)
                     window.setHeight (minHeight);
             });

@@ -16,7 +16,7 @@ public class LoggerBoxLogger
 
     /**
      * Convenient constructor which also creates the log.
-     * 
+     *
      * @param maximumLogEntries The maximum number of entries to add to the log. Oldest entries will
      *            be removed if that number is reached.
      */
@@ -28,7 +28,7 @@ public class LoggerBoxLogger
 
     /**
      * Constructor.
-     * 
+     *
      * @param log The log to log to
      */
     public LoggerBoxLogger (final LoggerBoxLog log)
@@ -39,7 +39,7 @@ public class LoggerBoxLogger
 
     /**
      * Log a message with debug level.
-     * 
+     *
      * @param message The message to log
      */
     public void debug (final String message)
@@ -50,7 +50,7 @@ public class LoggerBoxLogger
 
     /**
      * Log a message with info level.
-     * 
+     *
      * @param message The message to log
      * @param combineWithPrevious Combines the message of the previous record with the new one if
      *            true
@@ -63,7 +63,7 @@ public class LoggerBoxLogger
 
     /**
      * Log a message with warning level.
-     * 
+     *
      * @param message The message to log
      */
     public void warn (final String message)
@@ -74,7 +74,7 @@ public class LoggerBoxLogger
 
     /**
      * Log a message with error level.
-     * 
+     *
      * @param message The message to log
      */
     public void error (final String message)
@@ -85,7 +85,7 @@ public class LoggerBoxLogger
 
     /**
      * Log a record.
-     * 
+     *
      * @param level The level of the message
      * @param message The message text
      * @param combineWithPrevious Should this message be combined with the previous record?
@@ -106,7 +106,7 @@ public class LoggerBoxLogger
 
     /**
      * Get the log.
-     * 
+     *
      * @return The log
      */
     public LoggerBoxLog getLog ()

@@ -41,7 +41,7 @@ public class DropDownButton extends BorderPane
         this.setCenter (this.pushButton);
         this.setRight (this.menuButton);
 
-        this.menuButton.heightProperty ().addListener ((ChangeListener<Number>) (observable, oldValue, newValue) -> {
+        this.menuButton.heightProperty ().addListener ((ChangeListener<Number>) (_, _, newValue) -> {
             final double height = newValue.doubleValue ();
             this.menuButton.setMinHeight (height);
             this.menuButton.setMaxHeight (height);
