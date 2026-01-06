@@ -1,5 +1,5 @@
 // Written by Jürgen Moßgraber - mossgrabers.de
-// (c) 2019-2025
+// (c) 2019-2026
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
 package de.mossgrabers.tools;
@@ -212,6 +212,18 @@ public class StringUtils
     {
         final String [] split = text.split ("\0");
         return split.length == 0 ? "" : split[0];
+    }
+
+
+    /**
+     * Test if the given text consists completely of lower case characters.
+     * 
+     * @param text The text to test
+     * @return True if all characters are lower case
+     */
+    public static boolean isLowerCase (final String text)
+    {
+        return text.equals (text.toLowerCase ());
     }
 
 
