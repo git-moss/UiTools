@@ -38,7 +38,7 @@ public final class FileUtils
         {
             return file.getCanonicalFile ();
         }
-        catch (final IOException ex)
+        catch (final IOException _)
         {
             return file;
         }
@@ -84,7 +84,7 @@ public final class FileUtils
         final String text = Files.readString (file.toPath ());
 
         // UTF-8 BOM might not be automatically removed
-        return text.length () > 0 && text.charAt (0) == '\uFEFF' ? text.substring (1) : text;
+        return !text.isEmpty () && text.charAt (0) == '\uFEFF' ? text.substring (1) : text;
     }
 
 

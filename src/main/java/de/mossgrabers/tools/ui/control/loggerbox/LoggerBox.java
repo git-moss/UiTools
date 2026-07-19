@@ -4,6 +4,8 @@
 
 package de.mossgrabers.tools.ui.control.loggerbox;
 
+import de.mossgrabers.tools.ui.Functions;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -27,10 +29,14 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -42,7 +48,7 @@ import java.util.Map;
  */
 public class LoggerBox extends ListView<LogRecord>
 {
-    private final static Map<LoggerBoxLevel, PseudoClass> PSEUDO_CLASSES = new HashMap<> ();
+    private static final Map<LoggerBoxLevel, PseudoClass> PSEUDO_CLASSES = new EnumMap<> (LoggerBoxLevel.class);
     static
     {
         PSEUDO_CLASSES.put (LoggerBoxLevel.DEBUG, PseudoClass.getPseudoClass ("debug"));
@@ -75,7 +81,7 @@ public class LoggerBox extends ListView<LogRecord>
         logTransfer.setCycleCount (Animation.INDEFINITE);
         logTransfer.rateProperty ().bind (this.refreshRateProperty ());
 
-        this.pausedProperty ().addListener ( (_, _, newValue) -> {
+        this.pausedProperty ().addListener ((_, _, newValue) -> {
             final boolean booleanValue = newValue.booleanValue ();
             if (booleanValue && logTransfer.getStatus () == Animation.Status.RUNNING)
                 logTransfer.pause ();
@@ -84,16 +90,14 @@ public class LoggerBox extends ListView<LogRecord>
                 logTransfer.play ();
         });
 
-        this.parentProperty ().addListener ( (_, _, newValue) -> {
+        this.parentProperty ().addListener ((_, _, newValue) -> {
             if (newValue == null)
                 logTransfer.pause ();
             else if (!this.paused.get ())
                 logTransfer.play ();
         });
 
-        this.filterLevel.addListener ( (_, _, _) -> {
-            this.setItems (new FilteredList<> (this.logItems, logRecord -> logRecord.getLevel ().ordinal () >= this.filterLevel.get ().ordinal ()));
-        });
+        this.filterLevel.addListener ((_, _, _) -> this.setItems (new FilteredList<> (this.logItems, logRecord -> logRecord.getLevel ().ordinal () >= this.filterLevel.get ().ordinal ())));
         this.filterLevel.set (LoggerBoxLevel.DEBUG);
 
         this.setCellFactory (_ -> new ListCell<LogRecord> ()
@@ -204,8 +208,11 @@ public class LoggerBox extends ListView<LogRecord>
     {
         // Create the context menu
         final ContextMenu contextMenu = new ContextMenu ();
+        final ObservableList<MenuItem> items = contextMenu.getItems ();
         final MenuItem copyItem = new MenuItem ("Copy selected rows to clipboard");
-        contextMenu.getItems ().add (copyItem);
+        items.add (copyItem);
+        final MenuItem folderItem = new MenuItem ("Open folder (if one is present in the select log message)");
+        items.add (folderItem);
 
         copyItem.setOnAction (_ -> {
 
@@ -216,6 +223,30 @@ public class LoggerBox extends ListView<LogRecord>
             content.putString (concatenatedText.toString ().trim ());
             clipboard.setContent (content);
 
+        });
+
+        folderItem.setOnAction (_ -> {
+
+            if (!Desktop.isDesktopSupported () || !Desktop.getDesktop ().isSupported (Desktop.Action.OPEN))
+                return;
+            final LogRecord selectedItem = this.getSelectionModel ().getSelectedItem ();
+            if (selectedItem == null)
+                return;
+            final Optional<File> absolutePath = AbsolutePathExtractor.extractAbsolutePath (selectedItem.getMessage ());
+            if (absolutePath.isEmpty ())
+            {
+                Functions.message ("No path found in the selected line.");
+                return;
+            }
+            try
+            {
+                final File file = absolutePath.get ();
+                Desktop.getDesktop ().open (file.isFile () ? file.getParentFile () : file);
+            }
+            catch (final IOException ex)
+            {
+                Functions.error (ex);
+            }
         });
 
         // Show context menu on right click

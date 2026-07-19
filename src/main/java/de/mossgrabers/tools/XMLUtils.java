@@ -291,7 +291,7 @@ public class XMLUtils
         {
             return Integer.parseInt (content);
         }
-        catch (final NumberFormatException ex)
+        catch (final NumberFormatException _)
         {
             return defaultValue;
         }
@@ -317,7 +317,7 @@ public class XMLUtils
         {
             return Double.parseDouble (content);
         }
-        catch (final NumberFormatException ex)
+        catch (final NumberFormatException _)
         {
             return defaultValue;
         }
@@ -342,7 +342,7 @@ public class XMLUtils
         {
             return Integer.parseInt (attribute);
         }
-        catch (final NumberFormatException ex)
+        catch (final NumberFormatException _)
         {
             return defaultValue;
         }
@@ -367,7 +367,7 @@ public class XMLUtils
         {
             return Double.parseDouble (attribute);
         }
-        catch (final NumberFormatException ex)
+        catch (final NumberFormatException _)
         {
             return defaultValue;
         }
@@ -604,5 +604,61 @@ public class XMLUtils
             default:
                 throw new TransformerException ("Node type not implemented: " + nodeType);
         }
+    }
+
+
+    /**
+     * Returns a string that is safe to embed in an XML attribute value.
+     * <p>
+     * The following transformations are performed:
+     * <ul>
+     * <li>&amp; → &amp;amp;</li>
+     * <li>&lt; → &amp;lt;</li>
+     * <li>&gt; → &amp;gt;</li>
+     * <li>" → &amp;quot;</li>
+     * <li>' → &amp;apos;</li>
+     * <li>Any control character (ASCII &lt; 0x20) except TAB, LF, CR → &amp;#x…;</li>
+     * </ul>
+     *
+     * @param raw the text you want to put inside an XML attribute
+     * @return the escaped version, or an empty string if {@code raw} is {@code null}
+     */
+    public static String escapeAttribute (final String raw)
+    {
+        if (raw == null)
+            return "";
+
+        final StringBuilder out = new StringBuilder ();
+        for (int i = 0; i < raw.length (); i++)
+        {
+            final char ch = raw.charAt (i);
+            switch (ch)
+            {
+                case '&':
+                    out.append ("&amp;");
+                    break;
+                case '<':
+                    out.append ("&lt;");
+                    break;
+                case '>':
+                    out.append ("&gt;");
+                    break;
+                case '"':
+                    out.append ("&quot;");
+                    break;
+                case '\'':
+                    out.append ("&apos;");
+                    break;
+                default:
+                    // The only legal low range characters in XML are TAB (0x9),
+                    // LF (0xA) and CR (0xD). All others must be escaped.
+                    if (ch < 0x20 && ch != '\t' && ch != '\n' && ch != '\r')
+                        out.append ("&#x").append (Integer.toHexString (ch)).append (';');
+                    else
+                        out.append (ch);
+                    break;
+            }
+        }
+        return out.toString ();
     }
 }

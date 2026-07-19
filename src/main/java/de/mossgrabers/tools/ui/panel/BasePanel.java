@@ -122,11 +122,26 @@ public abstract class BasePanel
 
 
     /**
+     * Creates and adds a text field to the panel which is limited to positive integers.
+     *
+     * @param label The name of the label which is added to the field
+     * @param tooltip Tooltip text
+     * @return The created text field
+     */
+    public TextField createPositiveIntegerField (final String label, final String tooltip)
+    {
+        final TextField field = this.createField (label, tooltip, -1);
+        limitToNumbers (field);
+        return field;
+    }
+
+
+    /**
      * Limits the text field to numbers.
      *
      * @param field The field to limit
      */
-    private static void limitToNumbers (final TextField field)
+    public static void limitToNumbers (final TextField field)
     {
         field.addEventFilter (KeyEvent.KEY_TYPED, keyEvent -> {
             if (!"0123456789".contains (keyEvent.getCharacter ()))
@@ -268,9 +283,9 @@ public abstract class BasePanel
      * @param content The content of the combo box
      * @return The created combo box
      */
-    public <E> ComboBox<E> createComboBox (final String label, @SuppressWarnings("unchecked") final E... content)
+    public <E> ComboBox<E> createComboBox (final String label, final List<E> content)
     {
-        return this.createComboBox (label, Arrays.asList (content));
+        return this.createComboBox (label, null, content);
     }
 
 
@@ -279,13 +294,14 @@ public abstract class BasePanel
      *
      * @param <E> The type of the combobox's content
      * @param label The name of the label which is added to the combo box
+     * @param tooltip Tooltip text
      * @param content The content of the combo box
      * @return The created combo box
      */
-    public <E> ComboBox<E> createComboBox (final String label, final List<E> content)
+    public <E> ComboBox<E> createComboBox (final String label, final String tooltip, final List<E> content)
     {
         final ComboBox<E> combobox = new ComboBox<> (FXCollections.observableList (content));
-        this.addComponent (combobox, label);
+        this.addComponent (combobox, label, tooltip);
         return combobox;
     }
 

@@ -4,6 +4,9 @@
 
 package de.mossgrabers.tools;
 
+import java.util.Locale;
+
+
 /**
  * Some helper functions to deal with strings.
  *
@@ -290,5 +293,32 @@ public class StringUtils
     {
         final Integer valueObj = Integer.valueOf (value);
         return String.format ("%d (0x%02X)", valueObj, valueObj);
+    }
+
+
+    /**
+     * Formats a double value in US fashion. A space and percent sign are applied.
+     *
+     * @param value The value to format in the range of [-1..1]
+     * @param fractions The number of fractions to use
+     * @return The formatted value
+     */
+    public static String formatPercent (final double value, final int fractions)
+    {
+        return formatDouble (value * 100.0, fractions, " %");
+    }
+
+
+    /**
+     * Formats a double value in US fashion.
+     *
+     * @param value The value to format
+     * @param fractions The number of fractions to use
+     * @param postfix The string to append
+     * @return The formatted value
+     */
+    public static String formatDouble (final double value, final int fractions, final String postfix)
+    {
+        return String.format (Locale.US, "%." + fractions + "f", Double.valueOf (value)) + postfix;
     }
 }

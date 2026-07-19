@@ -568,7 +568,7 @@ public final class Functions
     public static Optional<File> getFileFromUser (final Window owner, final boolean open, final String title, final BasicConfig config, final FileChooser.ExtensionFilter [] filters)
     {
         final FileChooser chooser = new FileChooser ();
-        if (title != null && title.length () > 0)
+        if (title != null && !title.isEmpty ())
             chooser.setTitle (getText (title));
         final String currentPath = config == null ? null : config.getActivePath ();
         if (currentPath != null)
@@ -630,7 +630,7 @@ public final class Functions
         final String currentPath = config == null ? null : config.getActivePath ();
 
         final FileChooser chooser = new FileChooser ();
-        if (title != null && title.length () > 0)
+        if (title != null && !title.isEmpty ())
             chooser.setTitle (getText (title));
         if (currentPath != null)
         {
@@ -670,7 +670,7 @@ public final class Functions
         final String currentPath = config == null ? null : config.getActivePath ();
 
         final DirectoryChooser chooser = new DirectoryChooser ();
-        if (title != null && title.length () > 0)
+        if (title != null && !title.isEmpty ())
             chooser.setTitle (getText (title));
         if (currentPath != null)
         {
@@ -743,7 +743,7 @@ public final class Functions
      */
     public static String noEmptyString (final String value)
     {
-        return value == null || value.length () == 0 ? null : value;
+        return value == null || value.isEmpty () ? null : value;
     }
 
 
@@ -876,7 +876,7 @@ public final class Functions
         {
             return Integer.parseInt (field.getText ());
         }
-        catch (final NumberFormatException ex)
+        catch (final NumberFormatException _)
         {
             return -1;
         }

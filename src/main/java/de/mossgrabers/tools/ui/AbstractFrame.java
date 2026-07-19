@@ -117,7 +117,14 @@ public abstract class AbstractFrame
 
         this.stage.setScene (this.scene);
         this.stage.setOnCloseRequest (this::exit);
+    }
 
+
+    /**
+     * Shows the stage.
+     */
+    public void show ()
+    {
         this.stage.show ();
     }
 

@@ -62,17 +62,17 @@ public class LoggerBoxLog
     /**
      * Adds a record to the log.
      *
-     * @param record The record
+     * @param logRecord The record
      */
-    public void offer (final LogRecord record)
+    public void offer (final LogRecord logRecord)
     {
         synchronized (this.log)
         {
-            LogRecord rec = record;
-            if (record.isCombineWithPrevious () && this.previousRecord != null)
+            LogRecord rec = logRecord;
+            if (logRecord.isCombineWithPrevious () && this.previousRecord != null)
             {
                 // Combine with the last log entry
-                final LogRecord combinedRecord = new LogRecord (record.getLevel (), this.previousRecord.getMessage () + record.getMessage (), false);
+                final LogRecord combinedRecord = new LogRecord (logRecord.getLevel (), this.previousRecord.getMessage () + logRecord.getMessage (), false);
                 this.previousRecord.markForRemoval ();
 
                 // Is the previous record still in the log?
@@ -82,8 +82,8 @@ public class LoggerBoxLog
                 rec = combinedRecord;
             }
 
-            this.log.offer (rec);
-            this.previousRecord = rec;
+            if (this.log.offer (rec))
+                this.previousRecord = rec;
         }
     }
 }
