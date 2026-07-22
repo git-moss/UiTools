@@ -220,7 +220,7 @@ public class StringUtils
 
     /**
      * Test if the given text consists completely of lower case characters.
-     * 
+     *
      * @param text The text to test
      * @return True if all characters are lower case
      */
