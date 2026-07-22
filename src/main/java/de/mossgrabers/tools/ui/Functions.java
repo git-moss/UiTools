@@ -8,13 +8,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -272,7 +270,6 @@ public final class Functions
         if (owner != null)
             alert.initOwner (owner);
         alert.getDialogPane ().setExpandableContent (expContent);
-        inheritStyling (alert, owner);
         alert.showAndWait ();
     }
 
@@ -309,7 +306,6 @@ public final class Functions
         alert.setContentText (replaceStrings == null ? t : replacePercentNWithStrings (t, replaceStrings));
         if (owner != null)
             alert.initOwner (owner);
-        inheritStyling (alert, owner);
         alert.showAndWait ();
     }
 
@@ -332,7 +328,6 @@ public final class Functions
         alert.setGraphic (new ImageView (icon));
         alert.setHeaderText (getText (applicationName));
         alert.setContentText (new StringBuilder (COPYRIGHT_SYMBOL).append (' ').append (copyYear).append (" by ").append (company).toString ());
-        inheritStyling (alert, owner);
         alert.showAndWait ();
     }
 
@@ -391,7 +386,6 @@ public final class Functions
         alert.setHeaderText (null);
         if (owner != null)
             alert.initOwner (owner);
-        inheritStyling (alert, owner);
         final Optional<ButtonType> result = alert.showAndWait ();
         return result.isPresent () && result.get ().equals (ButtonType.YES);
     }
@@ -413,7 +407,6 @@ public final class Functions
         alert.setHeaderText (null);
         if (owner != null)
             alert.initOwner (owner);
-        inheritStyling (alert, owner);
         final Optional<ButtonType> result = alert.showAndWait ();
         return result.isPresent () ? result.get () : ButtonType.NO;
     }
@@ -486,7 +479,6 @@ public final class Functions
         if (options.length > 2)
             types[2] = new ButtonType (getText (options[2]), ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes ().setAll (types);
-        inheritStyling (alert, owner);
         final Optional<ButtonType> result = alert.showAndWait ();
         return result.isPresent () ? result.get ().getButtonData () : ButtonData.NO;
     }
@@ -536,7 +528,6 @@ public final class Functions
         else
             dialog.setHeaderText (getText (header));
         dialog.setContentText (getText (message));
-        inheritStyling (dialog, owner);
         final Optional<String> result = dialog.showAndWait ();
         return result.isPresent () ? result.get () : null;
     }
@@ -715,7 +706,6 @@ public final class Functions
         alert.initOwner (owner);
         alert.setTitle (getText (title));
         alert.headerTextProperty ().bind (task.messageProperty ());
-        inheritStyling (alert, owner);
 
         // Set expandable Exception into the dialog pane.
         final ProgressBar bar = new ProgressBar ();
@@ -920,27 +910,5 @@ public final class Functions
     {
         final ObservableList<Toggle> toggles = toggleGroup.getToggles ();
         toggleGroup.selectToggle (toggles.get (Math.clamp (index, 0, toggles.size () - 1)));
-    }
-
-    /**
-     * Lets a dialog inherit the styling of the window it belongs to: the stylesheets and the
-     * fill color of the owners scene are applied to the dialogs scene. Without this, dialogs
-     * are rendered with the platform default styling, which does not only look broken when the
-     * application uses a dark theme but the dialog then also appears with a sudden bright
-     * white flash - a real risk for photo-sensitive users.
-     *
-     * @param dialog The dialog which should inherit the styling
-     * @param owner The window from which to inherit the styling, may be null
-     */
-    public static void inheritStyling (final Dialog<?> dialog, final Window owner)
-    {
-        if (owner == null)
-            return;
-        final Scene ownerScene = owner.getScene ();
-        final Scene dialogScene = dialog.getDialogPane ().getScene ();
-        if (ownerScene == null || dialogScene == null)
-            return;
-        dialogScene.getStylesheets ().setAll (ownerScene.getStylesheets ());
-        dialogScene.setFill (ownerScene.getFill ());
     }
 }
