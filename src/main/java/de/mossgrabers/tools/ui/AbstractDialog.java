@@ -96,14 +96,6 @@ public abstract class AbstractDialog extends Dialog<Boolean>
         this.setTitle (Functions.getText (title));
         this.initOwner (owner);
 
-        // Inherit the styling of the owner window and re-apply it on every show since the
-        // application theme might have changed in the meantime
-        Functions.inheritStyling (this, owner);
-        this.showingProperty ().addListener ((ChangeListener<Boolean>) (_, _, isShowing) -> {
-            if (isShowing.booleanValue ())
-                Functions.inheritStyling (this, owner);
-        });
-
         if (!isResizable)
             return;
 
