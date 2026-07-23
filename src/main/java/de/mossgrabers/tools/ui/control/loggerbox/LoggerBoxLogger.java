@@ -98,8 +98,8 @@ public class LoggerBoxLogger
         {
             // Create separate records for multi-line text
             final String [] lines = message.split ("\n");
-            for (int i = 0; i < lines.length; i++)
-                this.log.offer (new LogRecord (level, lines[i], false));
+            for (final String line: lines)
+                this.log.offer (new LogRecord (level, line, false));
         }
     }
 
